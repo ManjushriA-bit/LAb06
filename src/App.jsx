@@ -1,37 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import appLogo from '/favicon.svg'
-import PWABadge from './PWABadge.jsx'
-import './App.css'
+import { useState, useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [habit, setHabit] = useState("");
+  const [habits, setHabits] = useState([]);
+
+  // Load saved habits
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("habits"));
+    if (saved) setHabits(saved);
+  }, []);
+
+  // Save habits
+  useEffect(() => {
+    localStorage.setItem("habits", JSON.stringify(habits));
+  }, [habits]);
+
+  const addHabit = () => {
+    if (habit.trim() === "") return;
+    setHabits([...habits, { text: habit, done: false }]);
+    setHabit("");
+  };
+
+  const toggleHabit = (index) => {
+    const updated = [...habits];
+    updated[index].done = !updated[index].done;
+    setHabits(updated);
+  };
+
+  const deleteHabit = (index) => {
+    const updated = habits.filter((_, i) => i !== index);
+    setHabits(updated);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={appLogo} className="logo" alt="App logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite PWA + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <PWABadge />
-    </>
-  )
+    <div style={{ padding: 40 }}>
+      <h1>Habit Tracker</h1>
+
+      <input
+        value={habit}
+        onChange={(e) => setHabit(e.target.value)}
+        placeholder="Enter habit"
+      />
+      <button onClick={addHabit}>Add</button>
+
+      <ul>
+        {habits.map((h, i) => (
+          <li key={i}>
+            <span
+              onClick={() => toggleHabit(i)}
+              style={{
+                textDecoration: h.done ? "line-through" : "none",
+                cursor: "pointer",
+                marginRight: 10
+              }}
+            >
+              {h.text}
+            </span>
+
+            <button onClick={() => deleteHabit(i)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default App
+export default App;

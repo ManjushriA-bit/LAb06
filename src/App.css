@@ -1,25 +1,60 @@
-body{
-  background:#121212;
-  color:white;
-  font-family:Arial;
+/* Center the app */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
 }
 
-.container{
-  text-align:center;
-  margin-top:60px;
+/* Main container */
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.habit{
-  margin:15px;
-  font-size:20px;
+/* Title */
+h1 {
+  text-align: center;
 }
 
-button{
-  margin-top:20px;
-  padding:10px 20px;
-  background:teal;
-  color:white;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
+/* Input + button */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Habit list */
+li {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.done {
+  text-decoration: line-through;
+  color: gray;
 }
